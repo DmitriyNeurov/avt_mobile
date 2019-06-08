@@ -3,7 +3,11 @@ import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
 
@@ -35,6 +39,32 @@ public class FirstTest {
     @Test
     public void firstTest()
     {
-        System.out.println("First test run");
+        WebElement element_skip = driver.findElementByXPath("//*[contains(@text, 'Skip' )]");
+        element_skip.click();
+
+        WebElement element_to_init_search = driver.findElementByXPath("//*[contains(@text, 'Search Wikipedia' )]");
+        element_to_init_search.click();
+
+        WebElement element_to_enter_search_line = waitForElementPresentById(
+                "org.wikipedia:id/search_src_text",
+                "Cannot find search input"
+        );
+
+        element_to_enter_search_line.sendKeys("Appium");
+
     }
+    private WebElement waitForElementPresentById(String id, String error_massage, long timeoutInSeconds)
+    {
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_massage + "\n");
+        By by = By.id(id);
+        return wait.until(
+                ExpectedConditions.presenceOfElementLocated(by)
+        );
+    }
+    private WebElement waitForElementPresentById(String id, String error_massage)
+    {
+        return waitForElementPresentById(id, error_massage, 5);
+    }
+
 }
