@@ -1,18 +1,20 @@
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public class FirstTest {
@@ -38,45 +40,8 @@ public class FirstTest {
         driver.quit();
     }
 
-//    @Test
-//    public void firstTest() {
-//        waitForElementAndClick(
-//                By.xpath("//*[contains(@text, 'Skip' )]"),
-//                "Cannot find search 'Skip'",
-//                5
-//        );
-//
-//        waitForElementAndClick(
-//                By.xpath("//*[contains(@text, 'Search Wikipedia' )]"),
-//                "Cannot find search  'Search Wikipedia'",
-//                5
-//        );
-//
-//        waitForElementAndSendKeys(
-//                By.id("org.wikipedia:id/search_src_text"),
-//                "Java",
-//                "Cannot find search input",
-//                5
-//        );
-//
-//        waitForElementSearch(
-//                By.id("org.wikipedia:id/page_list_item_title"),
-//                "Found less than two articles on Java",
-//                10
-//        );
-//        waitForElementAndClick(
-//                By.id("org.wikipedia:id/search_close_btn"),
-//                "Cannot find X to cancel search",
-//                5
-//        );
-//        waitForElementNotPresent(
-//                By.id("org.wikipedia:id/page_list_item_title"),
-//                "Found less than two articles on Java",
-//                10
-//        );
-//    }
     @Test
-    public void swipeArticle() {
+    public void firstTest() {
         waitForElementAndClick(
                 By.xpath("//*[contains(@text, 'Skip' )]"),
                 "Cannot find search 'Skip'",
@@ -91,31 +56,19 @@ public class FirstTest {
 
         waitForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
-                "Appium",
+                "Java",
                 "Cannot find search input",
-                15
-        );
-        waitForElementAndClick(
-                By.xpath("//*[@class = 'android.widget.TextView'][@text = 'Appium']"),
-                "Cannot find search 'Appium' input",
-                15
-        );
- /*       waitForElementPresent(
-                By.xpath("(android.view.View[@content-desc=\"Appium\"])[1]"),
-                "Can not find article title",
-                15
+                5
         );
 
-  */
-        swipeUpFindToElement(
-                By.xpath("//*[@text = 'View page in browser']"),
-                "Cannot find the end of the article",
-                24
-
+        waitForElementSearch(
+                new ArrayList<By> (Arrays.asList(By.id("org.wikipedia:id/page_list_item_title"))),
+                "Java",
+                "Not all articles found match the search",
+                10
         );
 
     }
-
 
     private WebElement waitForElementPresent(By by, String error_massage, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
@@ -146,47 +99,29 @@ public class FirstTest {
 
     }
 
-    private void waitForElementSearch(By by, String error_massage, long timeoutInSeconds) {
+    private void waitForElementSearch(List<By> bys, String word, String error_massage, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_massage + "\n");
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
-        List<WebElement> tasksList = driver.findElements(by);
-        int size = tasksList.size();
-        Assert.assertFalse(error_massage, size<2);
-    }
 
-    protected void swipeUp(int timeOfSwipe)
-    {
-        TouchAction action = new TouchAction(driver);
-        Dimension size = driver.manage().window().getSize();
-        int x = size.width/2;
-        int start_y = (int) (size.height * 0.8);
-        int end_y = (int) (size.height * 0.2);
-
-        action.press(x, start_y).waitAction(timeOfSwipe).moveTo(x, end_y).release().perform();
-
-
-    }
-    protected void swipeUpQuick()
-    {
-        swipeUp(200);
-    }
-
-    protected void swipeUpFindToElement(By by, String error_massage, int max_swipes)
-    {
-        int already_swiped = 0;
-        while (driver.findElements(by).size()==0){
-            if (already_swiped > max_swipes){
-                waitForElementPresent(by, "Can not fint element by swipe up.\n" + error_massage, 0);
-                return;
-            }
-            swipeUpQuick();
-            ++already_swiped;
+        List<WebElement> tasksList = new ArrayList<WebElement>() {};
+        List<String> results = new ArrayList<>();
+        for (By by: bys
+        ) {
+            wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+            tasksList.addAll(driver.findElements(by));
         }
 
+        for (WebElement el: tasksList
+             ) {
+            if(el.getText().startsWith(word)){
+                results.add(el.getText());
+            }
+        }
+
+        int sizeTasksList = tasksList.size();
+        int sizeResult = results.size();
+
+
+        Assert.assertFalse(error_massage, sizeTasksList != sizeResult);
     }
-
-
-
-
 }
