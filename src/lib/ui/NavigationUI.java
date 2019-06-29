@@ -1,12 +1,12 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
 
 public class NavigationUI extends MainPageObject {
 
     private static final String
-            MY_LISTS_LINK = "//*[@class = 'android.widget.FrameLayout']//*[@content-desc = 'My lists']";
+            MY_LISTS_LINK = "xpath://*[@class = 'android.widget.FrameLayout']//*[@content-desc = 'My lists']",
+            EXPLORE = "xpath://*[@class = 'android.widget.FrameLayout'][@content-desc = 'Explore']";
 
     public NavigationUI(AppiumDriver driver) {
         super(driver);
@@ -14,7 +14,7 @@ public class NavigationUI extends MainPageObject {
 
     public void clickMyLists() {
         this.waitForElementAndClick(
-                By.xpath(MY_LISTS_LINK),
+                MY_LISTS_LINK,
                 "Cannot find navigation button to My list",
                 5
         );
@@ -23,7 +23,7 @@ public class NavigationUI extends MainPageObject {
 
     public void clickExplore() {
         this.waitForElementAndClick(
-                By.xpath("//*[@class = 'android.widget.FrameLayout'][@content-desc = 'Explore']"),
+                EXPLORE,
                 "Cannot find navigation button to Explore",
                 5
         );
