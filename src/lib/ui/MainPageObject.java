@@ -89,13 +89,32 @@ public class MainPageObject {
         int already_swiped = 0;
         while (driver.findElements(by).size() == 0) {
             if (already_swiped > max_swipes) {
-                waitForElementPresent(locator, "Can not fint element by swipe up.\n" + error_message, 0);
+                waitForElementPresent(locator, "Can not find element by swipe up.\n" + error_message, 0);
                 return;
             }
             swipeUpQuick();
             ++already_swiped;
         }
+    }
 
+    public void swipeUpTillElementAppear(String locator, String error_massage, int max_swipes)
+    {
+        int already_swiped = 0;
+        while (!this.isElementLocatedOnTheScreen(locator))
+        {
+            if (already_swiped > max_swipes){
+                Assert.assertTrue(error_massage, this.isElementLocatedOnTheScreen(locator));
+            }
+            swipeUpQuick();
+            ++already_swiped;
+        }
+    }
+
+    public boolean isElementLocatedOnTheScreen(String locator)
+    {
+        int element_location_by_y = this.waitForElementPresent(locator, "Cannot find element by locator", 5).getLocation().getY();
+        int screen_size_by_y = driver.manage().window().getSize().getWidth();
+        return element_location_by_y < screen_size_by_y;
     }
 
     public WebElement waitForElementByClear(String locator, String error_message, long timeoutInSeconds) {

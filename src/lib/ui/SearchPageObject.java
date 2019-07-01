@@ -2,17 +2,16 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 
-public class SearchPageObject extends MainPageObject {
+abstract public class SearchPageObject extends MainPageObject {
 
-    private static final String
-        SEARCH_SKIP_ELEMENT = "id:Skip",
-        SEARCH_INIT_ELEMENT = "xpath://*[contains(@text, 'Search Wikipedia' )]",
-        SEARCH_INPUT = "xpath://*[contains(@text, 'Search…')]",
-        SEARCH_CANCEL_BUTTON = "id:org.wikipedia:id/search_close_btn",
-        SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://*[@resource-id = 'org.wikipedia:id/page_list_item_container']//*[@text = '{SUBSTRING}']",
-        SEARCH_RESULT_ELEMENT = "xpath://*[@class = 'android.widget.LinearLayout']//*[@resource-id = 'org.wikipedia:id/page_list_item_title']",
-        SEARCH_EMPTY_RESULT_ELEMENT = "xpath://*[@text = 'No results found']",
-        SEARCH_TITLE_ELEMENT_TPL = "xpath://*[@resource-id = 'org.wikipedia:id/view_page_title_text'][@text = '{TITLE_NAME}']";
+    protected static String
+        SEARCH_INIT_ELEMENT,
+        SEARCH_INPUT,
+        SEARCH_CANCEL_BUTTON,
+        SEARCH_RESULT_BY_SUBSTRING_TPL,
+        SEARCH_RESULT_ELEMENT,
+        SEARCH_EMPTY_RESULT_ELEMENT,
+        SEARCH_TITLE_ELEMENT_TPL;
 
     public SearchPageObject(AppiumDriver driver)
     {
@@ -33,7 +32,6 @@ public class SearchPageObject extends MainPageObject {
 
     public void initSearchInput()
     {
-        this.waitForElementAndClick(SEARCH_SKIP_ELEMENT, "Cannot find and click search input element", 10);
         this.waitForElementAndClick(SEARCH_INIT_ELEMENT, "Cannot find and click search input element", 10);
         this.waitForElementPresent(SEARCH_INIT_ELEMENT, "Cannot find search input after clicking search init element", 5);
     }
