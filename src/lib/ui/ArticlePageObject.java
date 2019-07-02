@@ -139,7 +139,7 @@ abstract public class ArticlePageObject extends MainPageObject
         this.waitForElementAndClick(
                 CLOSE_ARTICLE_BUTTON,
                 "Cannot closed article",
-                5
+                10
         );
 
     }

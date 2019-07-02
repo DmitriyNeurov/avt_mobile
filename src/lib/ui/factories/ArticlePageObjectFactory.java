@@ -4,7 +4,7 @@ import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import lib.ui.ArticlePageObject;
 import lib.ui.android.AndroidArticlePageObject;
-import lib.ui.ios.IOSArticlePageObject;
+import lib.ui.ios.iOSArticlePageObject;
 
 public class ArticlePageObjectFactory
 {
@@ -13,7 +13,7 @@ public class ArticlePageObjectFactory
         if (Platform.getInstance().isAndroid()){
             return new AndroidArticlePageObject(driver);
         }else {
-            return new IOSArticlePageObject(driver);
+            return new iOSArticlePageObject(driver);
         }
     }
 

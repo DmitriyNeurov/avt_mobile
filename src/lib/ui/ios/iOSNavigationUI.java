@@ -9,8 +9,8 @@ public class iOSNavigationUI extends NavigationUI {
         MY_LISTS_LINK = "id:Saved";
 /*
         NEW_SEARCH = "id:Search Wikipedia";
-*/
         EXPLORE = "id:Explore";
+*/
 
     }
     public iOSNavigationUI(AppiumDriver driver) {

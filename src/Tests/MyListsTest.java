@@ -19,30 +19,31 @@ public class MyListsTest extends CoreTestCase {
     public void testSaveFirstArticleToMyList()
     {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
-        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
-        MyListsPageObject MyListPageObject = MyListsPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.clickByArticleWithSubstringByXPath("Object-oriented programming language");
 
-//        MainPageObject.waitForElementAndClick(
-//                By.xpath("//*[@resource-id = 'org.wikipedia:id/page_list_item_description'][@text = 'Object-oriented programming language']"),
-//                "Cannot find search 'Object-oriented programming language'",
-//                5
-//        );
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
         String article_title = ArticlePageObject.getArticleTitle();
+
         if (Platform.getInstance().isAndroid()){
             ArticlePageObject.addArticleToMyList(name_of_folder);
         }else {
             ArticlePageObject.addArticlesToMySaved();
         }
-
         ArticlePageObject.closeArticle();
+
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
         NavigationUI.clickMyLists();
-        MyListPageObject.openFolder_By_Name(name_of_folder);
+
+        MyListsPageObject MyListPageObject = MyListsPageObjectFactory.get(driver);
+
+        if (Platform.getInstance().isAndroid()){
+            MyListPageObject.openFolder_By_Name(name_of_folder);
+        }
+
         MyListPageObject.swipeByArticleToDelete(article_title);
     }
     @Test
