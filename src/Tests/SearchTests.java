@@ -1,8 +1,10 @@
 package Tests;
+
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
-import lib.ui.MainPageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class SearchTests extends CoreTestCase {
@@ -10,7 +12,7 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testSearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
@@ -19,7 +21,7 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testCancelSearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.waitForCancelButtonToAppear();
@@ -29,20 +31,19 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testSearchArticleTitleAndCancelSearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);;
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        ArticlePageObject.waitForNumberOfResultsFound(2);
+        ArticlePageObject.waitForTitleElementMoreTwo();
         SearchPageObject.clickCancelSearch();
         ArticlePageObject.waitForTitleElementToDisappear();
     }
     @Test
     public void testAmountOfNotEmptySearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
-
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
         SearchPageObject.initSearchInput();
         String search_line = "Linkin Park discography";
         SearchPageObject.typeSearchLine(search_line);
@@ -52,32 +53,33 @@ public class SearchTests extends CoreTestCase {
     @Test
     public void testAmountOfEmptySearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         String search_line = "gsrggdg";
         SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.waitForEmptyResultsLabel();
-        SearchPageObject.assertThereIsNoResultOfSearch();
+        SearchPageObject.assertThereIsNoResultOfSearch(); /* Проверить метод на правтльность */
     }
 
     @Test
     public void testSearchTitleAndDescription()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.waitForElementByTitleAndDescription("Java", "Object-oriented programming language");
+        SearchPageObject.waitTitle("Java (programming language)");
+        SearchPageObject.waitDescription("Object-oriented programming language");
     }
 
     @Test
     public void testSearchFirstThreeResults()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
-        SearchPageObject.initSearchInput();
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
 
+        SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         ArticlePageObject.waitForNumberOfResultsFound(3);
         SearchPageObject.searchResultsTitleAndDescriptionByIndex("0", "Java", "Island of Indonesia");
