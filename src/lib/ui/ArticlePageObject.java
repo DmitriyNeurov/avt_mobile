@@ -39,7 +39,7 @@ abstract public class ArticlePageObject extends MainPageObject
 
     public void waitForNumberOfResultsFound(int number_of_results)
     {
-        this.waitForElementSearchResultsArticleByTitle((TITLE),
+        this.waitForElementSearchResultsArticleByTitle((ITEM_TITLE),
                 number_of_results,
                 "Found less than "+number_of_results+" articles",
                 10);

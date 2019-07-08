@@ -7,10 +7,10 @@ public class iOSArticlePageObject extends ArticlePageObject
 {
     static
     {
-        TITLE = "id:Java (programming language)";
 /*
-        TITLE = "id:Appium";
+        TITLE = "id:Java (programming language)";
 */
+        TITLE = "id:Appium";
         ITEM_TITLE = "xpath://XCUIElementTypeLink";
         FOOTER_ELEMENT = "id:View article in browser";
         OPTIONS_ADD_TO_MY_LIST_BUTTON = "id:Save for later";
