@@ -15,6 +15,8 @@ abstract public class SearchPageObject extends MainPageObject {
         SEARCH_TITLE_ELEMENT_TPL,
         SEARCH_TITLE_OR_DESCRIPTION_TPL,
         CONCATINATION_TPL,
+            CONCATINATION_SEARCH_TITLE_MW_TPL,
+            CONCATINATION_SEARCH_DESCRIPTION_MW_TPL,
         SEARCH_RESULT_BY_INDEX_OF_ARTICLE_TPL;
 
 
@@ -33,6 +35,17 @@ abstract public class SearchPageObject extends MainPageObject {
     {
         return CONCATINATION_TPL.replace("{TITLE_OR_DESCRIPTION}", title_or_description);
     }
+
+    private static String getSearchTitleForMW(String title)
+    {
+        return CONCATINATION_SEARCH_TITLE_MW_TPL.replace("{TITLE}", title);
+    }
+
+    private static String getSearchDescriptionForMW(String description)
+    {
+        return CONCATINATION_SEARCH_DESCRIPTION_MW_TPL.replace("{DESCRIPTION}",description);
+    }
+
 
     private static String getTitleOrDescription(String title_or_description)
     {
@@ -146,15 +159,22 @@ abstract public class SearchPageObject extends MainPageObject {
 
         if (Platform.getInstance().isAndroid()){
             String article_title = getConcatinationTpl(title);
-            this.waitForElementPresent((article_index + article_title),"Cannot find article title" + title, 10);
+            this.waitForElementPresent((article_index + article_title),"Cannot find article title " + title, 10);
+        }else if (Platform.getInstance().isMW()){
+            String article_title = getSearchTitleForMW(title);
+            String loc = (article_index + article_title);
+            this.waitForElementPresent((article_index + article_title),"Cannot find article title " + title, 10);
         }
 
-        this.waitForElementPresent((article_index),"Cannot find article title" + title, 10);
+        this.waitForElementPresent((article_index),"Cannot find article title " + title, 10);
         if (Platform.getInstance().isAndroid()) {
             String article_description = getConcatinationTpl(description);
-            this.waitForElementPresent((article_index + article_description), "Cannot find article description" + description, 10);
+            this.waitForElementPresent((article_index + article_description), "Cannot find article description " + description, 10);
+        }else if (Platform.getInstance().isMW()){
+            String article_description = getSearchDescriptionForMW(description);
+            this.waitForElementPresent((article_index + article_description), "Cannot find article description " + description, 10);
         }
-        this.waitForElementPresent((article_index), "Cannot find article description" + description, 10);
+        this.waitForElementPresent((article_index), "Cannot find article description " + description, 10);
     }
 
     public void assertRemainingArticle(String description)

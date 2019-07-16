@@ -82,9 +82,9 @@ public class SearchTests extends CoreTestCase {
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         ArticlePageObject.waitForNumberOfResultsFound(3);
-        SearchPageObject.searchResultsTitleAndDescriptionByIndex("0", "Java", "Island of Indonesia");
-        SearchPageObject.searchResultsTitleAndDescriptionByIndex("1", "JavaScript", "Programming language");
-        SearchPageObject.searchResultsTitleAndDescriptionByIndex("2", "Java (programming language)", "Object-oriented programming language");
+        SearchPageObject.searchResultsTitleAndDescriptionByIndex("0", "Java", "sland of Indonesia");
+        SearchPageObject.searchResultsTitleAndDescriptionByIndex("1", "JavaScript", "rogramming language");
+        SearchPageObject.searchResultsTitleAndDescriptionByIndex("2", "Java (programming language)", "bject-oriented programming language");
 
     }
 

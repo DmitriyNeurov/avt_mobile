@@ -13,7 +13,9 @@ public class MWSearhPageObject extends SearchPageObject {
         SEARCH_RESULT_ELEMENT = "css:ul.page-list>.page-summary";
         SEARCH_EMPTY_RESULT_ELEMENT = "css:p.without-results";
         SEARCH_TITLE_OR_DESCRIPTION_TPL = "id:'{TITLE_OR_DESCRIPTION}'";
-        SEARCH_RESULT_BY_INDEX_OF_ARTICLE_TPL = "xpath://XCUIElementTypeCell['{INDEX}']";
+        CONCATINATION_SEARCH_TITLE_MW_TPL = "/a[@data-title='{TITLE}']";
+        CONCATINATION_SEARCH_DESCRIPTION_MW_TPL = "//div[contains(@class,'wikidata-description')][contains(text(),'{DESCRIPTION}')]";
+        SEARCH_RESULT_BY_INDEX_OF_ARTICLE_TPL = "xpath://li[@class='page-summary']['{INDEX}']";
 
     }
 
